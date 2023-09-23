@@ -1,0 +1,81 @@
+#this is in python 😊
+class Book:
+    def __init__(self,  title, author, genre):
+        self.author = author
+        self.title = title
+        self.genre = genre
+        self.avability_status = True
+    def avability(self): #checking if the book is available
+      return self.avability_status
+    def borrow(self): #borrowing a book
+      if self.avability_status:
+          self.avability_status = False
+          print(f'{self.title} has been borrowed') #if the book is not available
+      else:
+          print(f'{self.title} is not available')
+    def return_book(self): #when the patron wants to return a book
+        self.avability_status = True
+        print(f'{self.title} has been returned.')
+
+class Patron:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+    self.books_borrowed = []
+
+  def borrow_book(self, book):
+    if book.avability():
+      self.books_borrowed.append(book)
+      book.borrow()
+      print(f'{self.name} has borrowed {book.title}')
+    else:
+        print(f'{book.title} is not available')
+
+  def return_book(self, book):
+    if book in self.books_borrowed:
+      self.books_borrowed.remove(book)
+      book.return_book()
+      print(f'{self.name} has returned {book.title}.')
+    else:
+      print(f'{self.name} did not borrow {book.title}.')
+
+  def check_borrowed_books(self):
+    print('The following books have been borrowed')
+    for book in self.books_borrowed:
+      print(f'{book.title}')
+
+
+class Library:
+  def __init__(self):
+    self.patrons = []
+    self.books = []
+
+  def add_book(self, book):
+    self.books.append(book)
+    print(f'{book.title} is added to the library')
+
+  def register_patron(self, patron):
+    self.patrons.append(patron)
+    print(f'{patron.name} is now a patron.')
+
+  def check_available_books(self):
+    print('The following books are available:')
+    for book in self.books:
+      if book.avability():
+        print(f'{book.title}')
+
+  def check_registered_patrons(self):
+    print('This are the registered patrons:')
+    for patron in self.patrons:
+        print(f'{patron.name}')
+
+  def check_borrowed_books(self, patron):
+    patron.check_borrowed_books()
+
+class Reference_book(Book):
+  def __init__(self, title, author, genre, reference_id):
+    super().__init__(title, author, genre)
+    self.reference_id = reference_id
+
+  def show_ref_id(self):
+    print(f"{self.title}'s reference id is: {self.reference_id}.")
